@@ -15,10 +15,13 @@ interface FlagImages {
 }
 
 export default function App() {
+    const [exchangeRates, setExchangeRates] = useState<Record<Currency,number>>({})
+    const [amount, setAmount] = useState<number>(0)
+    const [convertedAmount, setConvertedAmount] = useState<number | null>(null)
     const [selectedCurrency, setSelectedCurrency] = useState<Currency>("GBP");
     const [selectedCurrency2, setSelectedCurrency2] = useState<Currency>("RUB");
-    // const [exchangeRates, setExchangeRates] = useState<Record<string, number>>({});
     const [keyy] = useState("83b20cbb734f0429195dc898");
+
 
     const flagImages: FlagImages = {
         RUB: russiaFlag,
@@ -35,7 +38,11 @@ export default function App() {
         setSelectedCurrency2(e.target.value as Currency);
     }
 
-    const headleSwap = () =>{
+    const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setAmount(Number(e.target.value))
+    }
+
+    const headleSwap = () => {
         setSelectedCurrency2(selectedCurrency)
         setSelectedCurrency(selectedCurrency2)
     }
@@ -45,9 +52,20 @@ export default function App() {
             .then(response =>
                 response.json())
             .then(data => {
-                console.log(data);
+                setExchangeRates(data.conversion_rates);
             });
     }, [keyy]);
+
+    useEffect(() => {
+        if (exchangeRates[selectedCurrency] && exchangeRates[selectedCurrency2]){
+            const rateFrom = exchangeRates[selectedCurrency];
+            const rateTo = exchangeRates[selectedCurrency2];
+            const result = (amount * (rateTo / rateFrom))
+            setConvertedAmount(result)
+        } else{
+            setConvertedAmount(null)
+        }
+    },[amount, exchangeRates, selectedCurrency, selectedCurrency2])
 
 
     return (
@@ -69,7 +87,7 @@ export default function App() {
                                 <option value="EUR">€ Euro</option>
                                 <option value="CNY">¥ Yuan</option>
                             </select>
-                            <input type="number" className="form-control w-28 ml-6" min="0" id="validationDefault01"
+                            <input type="number" onChange={handleAmountChange} className="form-control w-28 ml-6" min="0" id="validationDefault01"
                                    required/>
                         </div>
                         <div className="flex justify-center">
@@ -88,7 +106,7 @@ export default function App() {
                                 <option value="EUR">€ Euro</option>
                                 <option value="CNY">¥ Yuan</option>
                             </select>
-                            <input type="number" className="form-control w-28 ml-6" min="0" id="validationDefault01"
+                            <input type="number" value={convertedAmount ?? ''} className="form-control w-28 ml-6" min="0" id="validationDefault01"
                                    required/>
                         </div>
                     </div>
