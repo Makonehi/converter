@@ -82,10 +82,10 @@ export default function App() {
                             {flagImages[selectedCurrency] && <img src={flagImages[selectedCurrency]} alt="flag"/>}
                             <select className="form-select max-w-32 ml-3" onChange={handleCurrencyChange}
                                     aria-label="Пример выбора по умолчанию" value={selectedCurrency}>
-                                <option value="GBP">£ Funt</option>
-                                <option value="RUB">₽ Ruble</option>
-                                <option value="EUR">€ Euro</option>
-                                <option value="CNY">¥ Yuan</option>
+                                <option value="GBP">£ GBP</option>
+                                <option value="RUB">₽ RUB</option>
+                                <option value="EUR">€ EUR</option>
+                                <option value="CNY">¥ CNY</option>
                             </select>
                             <input type="number" onChange={handleAmountChange} className="form-control w-28 ml-6" min="0" id="validationDefault01"
                                    required/>
@@ -101,10 +101,10 @@ export default function App() {
                             {flagImages[selectedCurrency2] && <img src={flagImages[selectedCurrency2]} alt="flag"/>}
                             <select className="form-select max-w-32 ml-3" onChange={handleCurrencyChangeTwo}
                                     aria-label="Пример выбора по умолчанию" value={selectedCurrency2}>
-                                <option value="GBP">£ Funt</option>
-                                <option value="RUB">₽ Ruble</option>
-                                <option value="EUR">€ Euro</option>
-                                <option value="CNY">¥ Yuan</option>
+                                <option value="GBP">£ GBP</option>
+                                <option value="RUB">₽ RUB</option>
+                                <option value="EUR">€ EUR</option>
+                                <option value="CNY">¥ CNY</option>
                             </select>
                             <input type="number" value={convertedAmount ?? ''} className="form-control w-28 ml-6" min="0" id="validationDefault01"
                                    required/>
@@ -112,6 +112,7 @@ export default function App() {
                     </div>
                     <div className="mt-7 ml-5">
                         <p className="text-stone-400">Indicative Exchange Rate</p>
+                        <p>1{selectedCurrency} = {exchangeRates[selectedCurrency]} {selectedCurrency2}</p>
                     </div>
                 </div>
             </header>
